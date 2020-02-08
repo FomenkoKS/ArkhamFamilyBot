@@ -6,7 +6,6 @@
  */
 class Telegram {
 
-    private $bot_id = "469108514:AAHqFiWx09JfkTCdNtiwYY3pd7I7-dBMIQQ";
     private $data = array();
     private $updates = array();
 
@@ -17,7 +16,7 @@ class Telegram {
      * \return an instance of the class
      */
     public function __construct($bot_id) {
-        $this->bot_id = $bot_id;
+        $this->bot_id = BOT_ID;
         $this->data = $this->getData();
     }
 

@@ -1,14 +1,8 @@
 <?php
-
+require_once("config.php");
 include("Telegram.php");
-define('BOT_PROXY', 'p2.telegram-s.org');
-define('BOT_PROXYPORT', '443');
-define('BOT_PROXYUSERNAME', 'user');
-define('BOT_PROXYUSERPWD', 'password');
-// Set the bot TOKEN
-$bot_id = "608508521:AAHAxWlWaKEgqNw_N0RnIzLeCu9SWngqB7Q";
 // Instances the class
-$telegram = new Telegram($bot_id);
+$telegram = new Telegram(BOT_ID);
 /* If you need to manually take some parameters
 *  $result = $telegram->getData();
 *  $text = $result["message"] ["text"];
@@ -221,7 +215,7 @@ if(array_key_exists('photo',$message) && in_array($chat_id,$admins)){
         $file_id=end($message['photo'])['file_id'];
         $file=$telegram->getFile($file_id);
         $filepath=$file['result']['file_path'];
-        $url = "https://api.telegram.org/file/bot".$bot_id."/".$filepath;
+        $url = "https://api.telegram.org/file/bot".BOT_ID."/".$filepath;
         $filepath=explode("/",$filepath)[1];
         $photo_file = file_get_contents($url);
         $filename = 'files/' . $filepath;
@@ -292,7 +286,7 @@ if ($telegram->Callback_Query()) {
         $file_id=array_pop($callback['message']['photo'])['file_id'];
         $file=$telegram->getFile($file_id);
         $filepath=$file['result']['file_path'];
-        $url = "https://api.telegram.org/file/bot".$bot_id."/".$filepath;
+        $url = "https://api.telegram.org/file/bot".BOT_ID."/".$filepath;
         $filepath=explode("/",$filepath)[1];
         $photo_file = file_get_contents($url);
         $filename = 'covers/'. md5(rand(0,1000)) . $filepath;
@@ -383,7 +377,7 @@ if ($telegram->Callback_Query()) {
         fclose($filename);
         unlink($filename);
     }else{
-        if ($callback['message']['from']['id']==explode(':',$bot_id)[0]){
+        if ($callback['message']['from']['id']==explode(':',BOT_ID)[0]){
             $redis->connect('127.0.0.1', 6379);
             if($redis->get('afb_runner')>0){
                 
